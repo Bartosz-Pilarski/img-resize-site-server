@@ -1,2 +1,8 @@
 .env
 node_modules
+
+# For serving formatted images
+public/images/*
+
+# Folder for saving images while formatting
+temp/*
