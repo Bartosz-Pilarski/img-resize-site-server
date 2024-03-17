@@ -13,12 +13,12 @@ imageRouter.get('/:imageId', async (req, res) => {
 
 imageRouter.post("/", upload.single('image'), async (req, res) => {
   const filepath = `temp/${req.file.filename}`
-  const outputpath = `public/images/${req.file.filename}_output.${req.body.extension}`
+  const outputpath = `images/${req.file.filename}_output.${req.body.extension}`
   const buffer = await fs.readFile(filepath)
 
   await sharp(buffer)
     .resize(32, 32)
-    .toFile(outputpath)
+    .toFile(`public/${outputpath}`)
 
   fs.unlink(filepath)
   res.status(200).json({ url: outputpath })
