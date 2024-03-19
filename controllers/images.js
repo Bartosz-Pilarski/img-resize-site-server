@@ -31,6 +31,7 @@ imageRouter.post("/", imagePostLimiter, upload.single('image'), async (req, res)
     extension: isExtensionSupported(req.body.extension) 
   }
 
+  if(req.file.size > 52428800) return res.status(400).json({ error: 'file exceeds 50MB size limit' })
   if(!(width && height && extension)) return res.status(400).json({ error: 'incorrect parameters' })
   if(!(ACCEPTED_MIMES.includes(req.file.mimetype))) return res.status(400).json({ error: 'incorrect file type' })
 
