@@ -15,7 +15,7 @@ const runCleanups = async () => {
 
 const startup = async () => {
   await runCleanups()
-  const outputCleanupInterval = setInterval(async () => {
+  setInterval(async () => {
     runCleanups()
   }, 10*60*1000)
   app.listen(PORT, () => {

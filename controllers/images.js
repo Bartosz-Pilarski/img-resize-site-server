@@ -1,16 +1,16 @@
 const fs = require('fs/promises')
 
-const multer = require("multer")
-const sharp = require("sharp")
+const multer = require('multer')
+const sharp = require('sharp')
 
-const { rateLimit } = require("express-rate-limit")
-const { toPixelCount, isExtensionSupported } = require("../utils/utils")
+const { rateLimit } = require('express-rate-limit')
+const { toPixelCount, isExtensionSupported } = require('../utils/utils')
 
 const upload = multer({ dest: 'temp' })
 
-const imageRouter = require("express").Router()
+const imageRouter = require('express').Router()
 
-const { ACCEPTED_MIMES, TEMP_PATH, OUTPUT_PATH } = require("../utils/config")
+const { ACCEPTED_MIMES, TEMP_PATH, OUTPUT_PATH } = require('../utils/config')
 
 const imagePostLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
@@ -24,11 +24,11 @@ imageRouter.get('/:imageId', async (req, res) => {
   res.status(200).end(req.params.imageId)
 })
 
-imageRouter.post("/", imagePostLimiter, upload.single('image'), async (req, res) => {
-  const { width, height, extension } = { 
-    width: toPixelCount(req.body.width), 
-    height: toPixelCount(req.body.height), 
-    extension: isExtensionSupported(req.body.extension) 
+imageRouter.post('/', imagePostLimiter, upload.single('image'), async (req, res) => {
+  const { width, height, extension } = {
+    width: toPixelCount(req.body.width),
+    height: toPixelCount(req.body.height),
+    extension: isExtensionSupported(req.body.extension)
   }
 
   if(req.file.size > 52428800) return res.status(400).json({ error: 'file exceeds 50MB size limit' })
