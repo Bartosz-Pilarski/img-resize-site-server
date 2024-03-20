@@ -20,7 +20,7 @@ app.use(express.json())
 app.use('/api/images', imageRouter)
 
 app.use(express.static('public'))
-
+app.use(express.static('public/dist'))
 
 app.get('*', async (req, res) => {
   res.end('<h1> Treacherous place ye\'ve found yerself in </h1>')
